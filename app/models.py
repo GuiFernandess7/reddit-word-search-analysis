@@ -3,16 +3,13 @@ from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime, timezone
 import pytz
 
-Base = declarative_base()
-brt_tz = pytz.timezone('America/Sao_Paulo')
-
 class Post(Base):
     __tablename__ = 'posts'
 
     ts = Column(BigInteger, primary_key=True)
     title = Column(String, nullable=False)
     has_label = Column(Boolean, nullable=False)
-    created_at = Column(DateTime, default=datetime.now(brt_tz))
+    created_at = Column(DateTime, default=datetime.now(timezone.now))
 
     def __repr__(self):
         return f"<Post(ts={self.ts}, title='{self.title}', has_label='{self.has_label}', created_at={self.created_at})>"
