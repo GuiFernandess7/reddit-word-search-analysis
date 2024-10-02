@@ -1,9 +1,9 @@
 import requests
 import pandas as pd
 import re
-import os
 
 from app.settings import USER_AGENT, API_TOKEN
+print(f"API_TOKEN: {API_TOKEN}")
 from app.database import engine, Session
 from app.models import Post
 from app.errors import *
