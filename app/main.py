@@ -3,14 +3,14 @@ import pandas as pd
 import re
 import os
 
-from app.settings import USER_AGENT
+from app.settings import USER_AGENT, API_TOKEN
 from app.database import engine, Session
 from app.models import Post
 from app.errors import *
 
 def set_request_headers(user_agent):
     try:
-        token = os.getenv('API_TOKEN')
+        token = API_TOKEN
         if not token:
             raise Exception("API_TOKEN não encontrado.")
 
