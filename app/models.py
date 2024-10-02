@@ -3,6 +3,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime, timezone
 import pytz
 
+Base = declarative_base()
+
 class Post(Base):
     __tablename__ = 'posts'
 
