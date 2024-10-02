@@ -77,9 +77,13 @@ def main():
         posts = get_subreddit_posts(subreddit, headers)
         raw_df = get_raw_df(posts)
         today_batch = get_batch_df(raw_df)
-        add_to_database(today_batch)
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
+    else:
+        try:
+            add_to_database(today_batch)
+        except Exception as e:
+            print(f"Ocorreu um erro ao adicionar ao banco de dados: {e}")
 
 if __name__ == "__main__":
     main()
