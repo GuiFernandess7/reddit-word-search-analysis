@@ -1,23 +1,25 @@
 import requests
 import pandas as pd
 import re
+import os
 
-from app.settings import USER_AGENT, INITIAL_PARAMS
-from app.api_token import get_token_access
+from app.settings import USER_AGENT
 from app.database import engine, Session
 from app.models import Post
 from app.errors import *
 
 def set_request_headers(user_agent):
     try:
-        token = get_token_access(headers={'User-Agent': user_agent}, params=INITIAL_PARAMS)
+        token = os.getenv('API_TOKEN')
+        if not token:
+            raise Exception("API_TOKEN não encontrado.")
+
+        return {
+            'User-Agent': user_agent,
+            'Authorization': f'bearer {token}'
+        }
     except Exception as e:
         raise RequestHeaderError("Falha ao configurar os headers da requisição.") from e
-
-    return {
-        'User-Agent': user_agent,
-        'Authorization': f'bearer {token}'
-    }
 
 def get_subreddit_posts(subreddit, headers):
     url = f'https://oauth.reddit.com/r/{subreddit}/new?limit=100'
