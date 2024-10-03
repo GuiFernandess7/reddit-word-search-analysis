@@ -11,8 +11,7 @@ from app.errors import *
 def set_request_headers(user_agent):
     try:
         token = API_TOKEN
-        if not token:
-            raise Exception("API_TOKEN não encontrado.")
+        print(token == None)
 
         return {
             'User-Agent': user_agent,
