@@ -41,6 +41,7 @@ def get_raw_df(posts):
         df = pd.DataFrame.from_dict(data, orient='index', columns=['title'])
         df['has_label'] = df['title'].apply(check_for_word)
         df['created_at'] = pd.to_datetime(df.index, unit='s')
+        df.index.name = 'ts'
         return df
     except Exception as e:
         raise DataFrameCreationError(f"Erro ao criar DataFrame a partir dos posts: {e}") from e
