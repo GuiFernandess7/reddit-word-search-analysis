@@ -23,10 +23,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Get public IP
-        run: curl ifconfig.me
-
       - name: Run the app
+        env:
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+          USER_AGENT: ${{ secrets.USER_AGENT }}
         run: |
           python -m app.main
 
