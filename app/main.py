@@ -43,7 +43,7 @@ def get_raw_df(posts):
         df['created_at'] = pd.to_datetime(df.index, unit='s')
         return df
     except Exception as e:
-        raise DataFrameCreationError("Erro ao criar DataFrame a partir dos posts.") from e
+        raise DataFrameCreationError(f"Erro ao criar DataFrame a partir dos posts: {e}") from e
 
 def add_to_database(batch):
     with Session() as session:
@@ -55,7 +55,7 @@ def add_to_database(batch):
                 new_data.to_sql('posts', engine, if_exists='append')
                 print(f"{len(new_data)} novos dados inseridos.")
             except Exception as e:
-                raise DatabaseInsertError("Erro ao inserir novos dados no banco de dados.") from e
+                raise DatabaseInsertError(f"Erro ao inserir novos dados no banco de dados: {e}") from e
         else:
             print("Nenhum novo dado para inserir.")
 
@@ -71,7 +71,7 @@ def main():
         try:
             add_to_database(batch)
         except Exception as e:
-            print(f"Ocorreu um erro ao adicionar ao banco de dados: {e}")
+            print(f"Erro associado ao DB: {e}")
 
 if __name__ == "__main__":
     main()
