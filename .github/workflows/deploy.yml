@@ -23,6 +23,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Get public IP
+        run: curl ifconfig.me
+
       - name: Run the app
         run: |
           python -m app.main
