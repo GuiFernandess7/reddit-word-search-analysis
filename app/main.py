@@ -45,19 +45,10 @@ def get_raw_df(posts):
     except Exception as e:
         raise DataFrameCreationError("Erro ao criar DataFrame a partir dos posts.") from e
 
-def get_batch_df(raw_df):
-    try:
-        today = pd.to_datetime("today").normalize()
-        today_batch = raw_df[raw_df['created_at'].dt.date == today.date()]
-        today_batch.index.name = 'ts'
-        return today_batch
-    except Exception as e:
-        raise BatchDataFrameError("Erro ao filtrar o DataFrame para dados do dia.") from e
-
-def add_to_database(today_batch):
+def add_to_database(batch):
     with Session() as session:
         existing_timestamps = set(post.ts for post in session.query(Post.ts).all())
-        new_data = today_batch[~today_batch.index.isin(existing_timestamps)]
+        new_data = batch[~batch.index.isin(existing_timestamps)]
 
         if not new_data.empty:
             try:
@@ -73,13 +64,12 @@ def main():
         headers = set_request_headers(USER_AGENT)
         subreddit = 'brasilivre'
         posts = get_subreddit_posts(subreddit, headers)
-        raw_df = get_raw_df(posts)
-        today_batch = get_batch_df(raw_df)
+        batch = get_raw_df(posts)
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
     else:
         try:
-            add_to_database(today_batch)
+            add_to_database(batch)
         except Exception as e:
             print(f"Ocorreu um erro ao adicionar ao banco de dados: {e}")
 
