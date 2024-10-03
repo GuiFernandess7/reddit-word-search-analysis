@@ -11,8 +11,6 @@ from app.errors import *
 def set_request_headers(user_agent):
     try:
         token = API_TOKEN
-        print(token == None)
-
         return {
             'User-Agent': user_agent,
             'Authorization': f'bearer {token}'
