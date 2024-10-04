@@ -16,6 +16,7 @@ def get_token_access(headers, params):
         print(f"ERRO AO REALIZAR POST REQUEST: {e}")
         return None
     else:
-        token = response.json()['access_token']
+        token = response.json()
 
+    print(token)
     return token

@@ -64,7 +64,10 @@ def add_to_database(batch):
             print("Nenhum novo dado para inserir.")
 
 def main():
-    try:
+    headers = {'User-Agent': USER_AGENT}
+    token = get_token_access(headers=headers, params=INITIAL_PARAMS)
+    print(token)
+    """ try:
         headers = set_request_headers(USER_AGENT)
         subreddit = 'brasilivre'
         posts = get_subreddit_posts(subreddit, headers)
@@ -75,7 +78,7 @@ def main():
         try:
             add_to_database(batch)
         except Exception as e:
-            print(f"Erro associado ao DB: {e}")
+            print(f"Erro associado ao DB: {e}") """
 
 if __name__ == "__main__":
     main()
