@@ -12,8 +12,10 @@ def set_request_headers(user_agent):
     headers = {'User-Agent': user_agent}
     try:
         token = get_token_access(headers=headers, params=INITIAL_PARAMS)
-    except Exception as e:
-        raise RequestHeaderError(f"Request Error: {e}") from e
+    except RequestError as e:
+        raise RequestError(f"{e}") from e
+    except APITokenError as e:
+        raise APITokenError(f"{e}") from e
     headers['Authorization'] = f'bearer {token}'
     return headers
 

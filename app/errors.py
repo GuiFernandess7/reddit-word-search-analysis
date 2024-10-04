@@ -1,3 +1,7 @@
+class RequestError(Exception):
+    """Erro ao configurar os headers da requisição."""
+    pass
+
 class RequestHeaderError(Exception):
     """Erro ao configurar os headers da requisição."""
     pass
