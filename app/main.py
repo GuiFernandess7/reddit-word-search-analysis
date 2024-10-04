@@ -53,6 +53,8 @@ def add_to_database(batch):
         existing_timestamps = set(post.ts for post in session.query(Post.ts).all())
         new_data = batch[~batch.index.isin(existing_timestamps)]
 
+        print(new_data)
+
         if not new_data.empty:
             try:
                 new_data.to_sql('posts', engine, if_exists='append')
