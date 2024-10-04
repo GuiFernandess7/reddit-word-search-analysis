@@ -1,4 +1,4 @@
-""" import requests
+import requests
 import pandas as pd
 import re
 import dotenv
@@ -15,4 +15,3 @@ def get_token_access(headers, params):
     token = response.json()['access_token']
 
     return token
- """
