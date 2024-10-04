@@ -51,6 +51,8 @@ def get_raw_df(posts):
 def add_to_database(batch):
     with Session() as session:
         existing_timestamps = set(post.ts for post in session.query(Post.ts).all())
+        print(existing_timestamps)
+
         new_data = batch[~batch.index.isin(existing_timestamps)]
 
         print(new_data)
