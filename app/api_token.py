@@ -13,7 +13,7 @@ def get_token_access(headers, params):
         response = requests.post('https://www.reddit.com/api/v1/access_token', auth=auth, data=params, headers=headers)
 
         if response.status_code != 200:
-            raise APITokenError(f"Falha ao capturar token de acesso: {response.text}")
+            raise APITokenError(f"Request status {response.status_code}: {response.text}")
 
         token = response.json().get('access_token')
         if not token:
