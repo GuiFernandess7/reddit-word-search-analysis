@@ -67,7 +67,7 @@ def main():
         posts = get_subreddit_posts(subreddit, headers)
         batch = get_raw_df(posts)
     except Exception as e:
-        print(f"Ocorreu um erro: {e}")
+        print(f"Erro: {e}")
     else:
         try:
             add_to_database(batch)
