@@ -13,12 +13,9 @@ def set_request_headers(user_agent):
     try:
         token = get_token_access(headers=headers, params=INITIAL_PARAMS)
     except Exception as e:
-        raise RequestHeaderError(f"Falha ao obter token de acesso: {e}") from e
-    try:
-        headers['Authorization'] = f'bearer {token}'
-        return headers
-    except Exception as e:
-        raise RequestHeaderError("Falha ao configurar os headers da requisição.") from e
+        raise RequestHeaderError(f"Request Error: {e}") from e
+    headers['Authorization'] = f'bearer {token}'
+    return headers
 
 def get_subreddit_posts(subreddit, headers):
     url = f'https://oauth.reddit.com/r/{subreddit}/new?limit=100'
@@ -64,10 +61,7 @@ def add_to_database(batch):
             print("Nenhum novo dado para inserir.")
 
 def main():
-    headers = {'User-Agent': USER_AGENT}
-    token = get_token_access(headers=headers, params=INITIAL_PARAMS)
-    print(token)
-    """ try:
+    try:
         headers = set_request_headers(USER_AGENT)
         subreddit = 'brasilivre'
         posts = get_subreddit_posts(subreddit, headers)
@@ -78,7 +72,8 @@ def main():
         try:
             add_to_database(batch)
         except Exception as e:
-            print(f"Erro associado ao DB: {e}") """
+            print(f"Erro associado ao DB: {e}")
+        #print("tudo ok")
 
 if __name__ == "__main__":
     main()

@@ -2,6 +2,10 @@ class RequestHeaderError(Exception):
     """Erro ao configurar os headers da requisição."""
     pass
 
+class APITokenError(Exception):
+    """Erro ao configurar os headers da requisição."""
+    pass
+
 class SubredditPostsError(Exception):
     """Erro ao obter posts de um subreddit."""
     pass
