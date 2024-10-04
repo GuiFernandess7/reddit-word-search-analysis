@@ -27,8 +27,11 @@ jobs:
 
       - name: Run the app
         env:
-          API_TOKEN: ${{ secrets.API_TOKEN }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           USER_AGENT: ${{ secrets.USER_AGENT }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
         run: |
           python -m app.main
 
