@@ -2,18 +2,21 @@ import requests
 import pandas as pd
 import re
 
-from app.settings import USER_AGENT, API_TOKEN
+from app.settings import USER_AGENT, INITIAL_PARAMS
 from app.database import engine, Session
 from app.models import Post
 from app.errors import *
+from app.api_token import get_token_access
 
 def set_request_headers(user_agent):
+    headers = {'User-Agent': user_agent}
     try:
-        token = API_TOKEN
-        return {
-            'User-Agent': user_agent,
-            'Authorization': f'bearer {token}'
-        }
+        token = get_token_access(headers=headers, params=INITIAL_PARAMS)
+    except Exception as e:
+        raise RequestHeaderError(f"Falha ao obter token de acesso: {e}") from e
+    try:
+        headers['Authorization'] = f'bearer {token}'
+        return headers
     except Exception as e:
         raise RequestHeaderError("Falha ao configurar os headers da requisição.") from e
 
