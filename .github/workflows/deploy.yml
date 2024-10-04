@@ -25,6 +25,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Restore posts.db from cache
+        uses: actions/cache@v3
+        with:
+          path: app/data/posts.db
+          key: ${{ runner.os }}-posts-db-${{ hashFiles('app/data/posts.db') }}
+          restore-keys: |
+            ${{ runner.os }}-posts-db-
+
       - name: Run the app
         env:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
