@@ -35,8 +35,9 @@ jobs:
         run: |
           python -m app.main
 
-      - name: Save posts.db as artifact
-        uses: actions/upload-artifact@v3
+      - name: Save posts.db to cache
+        if: steps.cache-posts-db.outputs.cache-hit != 'true'
+        uses: actions/cache@v3
         with:
-          name: posts-database
           path: app/data/posts.db
+          key: ${{ runner.os }}-posts-db-${{ hashFiles('app/data/posts.db') }}
