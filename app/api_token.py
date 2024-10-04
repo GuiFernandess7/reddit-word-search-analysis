@@ -9,9 +9,13 @@ from app.settings import (
 )
 
 def get_token_access(headers, params):
-    auth = requests.auth.HTTPBasicAuth(CLIENT_ID, CLIENT_SECRET)
-
-    response = requests.post('https://www.reddit.com/api/v1/access_token', auth=auth, data=params, headers=headers)
-    token = response.json()['access_token']
+    try:
+        auth = requests.auth.HTTPBasicAuth(CLIENT_ID, CLIENT_SECRET)
+        response = requests.post('https://www.reddit.com/api/v1/access_token', auth=auth, data=params, headers=headers)
+    except Exception as e:
+        print(f"ERRO AO REALIZAR POST REQUEST: {e}")
+        return None
+    else:
+        token = response.json()['access_token']
 
     return token
