@@ -55,7 +55,7 @@ def add_to_database(batch):
 
         if not new_data.empty:
             try:
-                new_data.to_sql('posts', engine, if_exists='append')
+                new_data.to_sql('posts-database', engine, if_exists='append')
                 print(f"{len(new_data)} novos dados inseridos.")
             except Exception as e:
                 raise DatabaseInsertError(f"Erro ao inserir novos dados no banco de dados: {e}") from e
@@ -75,7 +75,6 @@ def main():
             add_to_database(batch)
         except Exception as e:
             print(f"Erro associado ao DB: {e}")
-        #print("tudo ok")
 
 if __name__ == "__main__":
     main()
