@@ -93,16 +93,15 @@ def insert_data_to_db(posts):
         new_posts = [post for post in posts if post.ts not in existing_timestamps]
 
         if new_posts:
+            logging.info(f"DADOS CAPTURADOS COM SUCESSO.")
             db_path = os.path.join(os.path.dirname(__file__), 'data', 'posts.db')
-            print(db_path + "-===================================")
-            logging.debug(f"Database path: {db_path}")
             try:
                 session.add_all(new_posts)
                 session.commit()
-                if not os.path.isfile(db_path):
-                    raise DatabaseNotFound("Database File Not Found.")
-                else:
-                    logging.debug(f"Database path: {db_path}")
+                #if not os.path.isfile(db_path):
+                #    raise DatabaseNotFound("Database File Not Found.")
+                #else:
+                #    logging.debug(f"Database path: {db_path}")
                     #upload_to_drive(db_path, FOLDER_ID)
             except Exception as e:
                 session.rollback()
@@ -121,7 +120,6 @@ def main():
     except Exception as e:
         logging.error(f"[MAIN]: {e}")
     else:
-        logging.info(f"DADOS CAPTURADOS COM SUCESSO.")
         try:
             insert_data_to_db(new_posts)
         except Exception as e:
