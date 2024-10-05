@@ -22,7 +22,11 @@ from app.errors import *
 from app.api_token import get_token_access
 
 def authenticate_google_drive():
-    creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+    if os.path.isfile(SERVICE_ACCOUNT_FILE):
+        creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+    else:
+        raise ValueError("SERVICE_ACCOUNT_FILE not found.")
+
     return build('drive', 'v3', credentials=creds)
 
 def upload_to_drive(file_path, folder_id):
