@@ -101,10 +101,7 @@ def insert_data_to_db(posts, db_path):
             try:
                 session.add_all(new_posts)
                 session.commit()
-                if not os.path.isfile(db_path):
-                    raise DatabaseNotFound("Database File Not Found.")
-                else:
-                    logging.info(f"Database path: {db_path}")
+                upload_to_drive(db_path, FOLDER_ID)
             except Exception as e:
                 session.rollback()
                 raise DatabaseInsertError(f"[DatabaseInsertError]: {e}") from e
@@ -112,8 +109,6 @@ def insert_data_to_db(posts, db_path):
                 logging.info(f"POSTS ENVIADOS: {len(new_posts)}")
         else:
             logger.info("Nenhum post novo encontrado.")
-
-        upload_to_drive(db_path, FOLDER_ID)
 
 def main():
     db_path = os.path.join(os.path.dirname(__file__), 'data', 'posts.db')
