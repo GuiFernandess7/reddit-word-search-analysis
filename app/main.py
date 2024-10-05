@@ -1,12 +1,38 @@
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaFileUpload
+
 import requests
 import pandas as pd
+from datetime import datetime, timezone
 import re
 
-from app.settings import USER_AGENT, INITIAL_PARAMS
+from app.settings import USER_AGENT, INITIAL_PARAMS, SERVICE_ACCOUNT_FILE, SCOPES, FOLDER_ID
 from app.database import engine, Session
 from app.models import Post
 from app.errors import *
 from app.api_token import get_token_access
+
+def authenticate_google_drive():
+    creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+    return build('drive', 'v3', credentials=creds)
+
+def upload_to_drive(file_path):
+    service = authenticate_google_drive()
+    file_name = 'posts.db'
+
+    query = f"name='{file_name}' and '{FOLDER_ID}' in parents"
+    results = service.files().list(q=query, fields='files(id)').execute()
+    items = results.get('files', [])
+
+    if items:
+        file_id = items[0]['id']
+        media = MediaFileUpload(file_path, mimetype='application/x-sqlite3')
+
+        file = service.files().update(fileId=file_id, media_body=media).execute()
+        print(f'Arquivo {file_name} atualizado com ID: {file.get("id")}')
+    else:
+        raise ValueError("posts.db not found in folder.")
 
 def set_request_headers(user_agent):
     headers = {'User-Agent': user_agent}
@@ -34,34 +60,37 @@ def check_for_word(title, search_phrase='mbl'):
     except Exception as e:
         raise WordCheckError("Erro ao verificar palavras no título.") from e
 
-def get_raw_df(posts):
+def get_raw_data(posts):
     try:
-        data = {
-            post['data']['created']: post['data']['title']
-            for post in posts['data']['children']
-        }
-        df = pd.DataFrame.from_dict(data, orient='index', columns=['title'])
-        df['has_label'] = df['title'].apply(check_for_word)
-        df['created_at'] = pd.to_datetime(df.index, unit='s')
-        df.index.name = 'ts'
-        return df
-    except Exception as e:
-        raise DataFrameCreationError(f"Erro ao criar DataFrame a partir dos posts: {e}") from e
+        new_posts = []
+        for post in posts['data']['children']:
+            ts = post['data']['created']
+            title = post['data']['title']
+            has_label = check_for_word(title)
 
-def add_to_database(batch):
+            new_posts.append(Post(
+                ts=ts,
+                title=title,
+                has_label=has_label,
+                created_at=datetime.fromtimestamp(ts, tz=timezone.utc)
+            ))
+        return new_posts
+    except Exception as e:
+        raise DataFrameCreationError(f"Erro ao criar dados a partir dos posts: {e}") from e
+
+def insert_data_to_db(posts):
     with Session() as session:
         existing_timestamps = set(post.ts for post in session.query(Post.ts).all())
-        print(existing_timestamps)
 
-        new_data = batch[~batch.index.isin(existing_timestamps)]
+        new_posts = [post for post in posts if post.ts not in existing_timestamps]
 
-        print(new_data)
-
-        if not new_data.empty:
+        if new_posts:
             try:
-                new_data.to_sql('posts', engine, if_exists='append')
-                print(f"{len(new_data)} novos dados inseridos.")
+                session.add_all(new_posts)
+                session.commit()
+                upload_to_drive('./app/data/posts.db')
             except Exception as e:
+                session.rollback()
                 raise DatabaseInsertError(f"Erro ao inserir novos dados no banco de dados: {e}") from e
         else:
             print("Nenhum novo dado para inserir.")
@@ -71,12 +100,12 @@ def main():
         headers = set_request_headers(USER_AGENT)
         subreddit = 'brasilivre'
         posts = get_subreddit_posts(subreddit, headers)
-        batch = get_raw_df(posts)
+        new_posts = get_raw_data(posts)
     except Exception as e:
         print(f"Erro: {e}")
     else:
         try:
-            add_to_database(batch)
+            insert_data_to_db(new_posts)
         except Exception as e:
             print(f"Erro associado ao DB: {e}")
 
