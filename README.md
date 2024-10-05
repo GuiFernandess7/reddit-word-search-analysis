@@ -1,6 +1,6 @@
 # Reddit Automated Data Collection
 
-![reddit-cover](https://github.com/user-attachments/assets/925a544e-c6ed-4079-acd8-ca8ed9b90921)
+![reddit-cover(1)](https://github.com/user-attachments/assets/a1c59e2a-718c-4215-9b2b-7656fcc7ced2)
 
 ## Introduction
 
