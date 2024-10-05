@@ -13,7 +13,7 @@ USER_AGENT = os.getenv('USER_AGENT')
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
 if not DEBUG:
-    SERVICE_ACCOUNT_FILE = os.getenv('SERVICE_ACCOUNT_FILE')
+    SERVICE_ACCOUNT_FILE = os.getenv('GOOGLE_CREDS')
 else:
     SERVICE_ACCOUNT_FILE = os.path.join(os.path.dirname(__file__), '.creds', 'creds.json')
 

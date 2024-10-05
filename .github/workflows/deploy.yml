@@ -35,6 +35,5 @@ jobs:
           USER_AGENT: ${{ secrets.USER_AGENT }}
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
-          SERVICE_ACCOUNT_FILE: ${{ secrets.SERVICE_ACCOUNT_FILE }}
         run: |
           python -m app.main
