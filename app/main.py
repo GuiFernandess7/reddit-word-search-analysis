@@ -98,7 +98,7 @@ def insert_data_to_db(posts):
                 upload_to_drive('./app/data/posts.db')
             except Exception as e:
                 session.rollback()
-                raise DatabaseInsertError(f"Erro ao inserir novos dados no banco de dados: {e}") from e
+                raise DatabaseInsertError(f"[DatabaseInsertError]: {e}") from e
             else:
                 logging.info(f"POSTS ENVIADOS: {len(new_posts)}")
         else:
@@ -111,13 +111,13 @@ def main():
         posts = get_subreddit_posts(subreddit, headers)
         new_posts = get_raw_data(posts)
     except Exception as e:
-        logging.error(f"Erro: {e}")
+        logging.error(f"[MAIN] - {e}")
     else:
         logging.info(f"DADOS CAPTURADOS COM SUCESSO.")
         try:
             insert_data_to_db(new_posts)
         except Exception as e:
-            logging.error(f"Erro associado ao DB: {e}")
+            logging.error(f"[MAIN - DB]: {e}")
         else:
             logging.info(f"DADOS ENVIADOS COM SUCESSO.")
 
