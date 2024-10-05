@@ -1,3 +1,1 @@
-# Reddit automated data collection via API
-
-
+# Reddit automated data collection
