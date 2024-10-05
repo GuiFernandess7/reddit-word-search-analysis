@@ -108,9 +108,11 @@ def insert_data_to_db(posts, db_path):
                 logging.info(f"POSTS ENVIADOS: {len(new_posts)}")
         else:
             logger.info("Nenhum post novo encontrado.")
-            upload_to_drive(db_path, FOLDER_ID)
+            logger.info(os.path.join(os.path.dirname(__file__), 'data'))
+            #upload_to_drive(db_path, FOLDER_ID)
 
 def main():
+
     db_path = 'app/data/posts.db'
     try:
         headers = set_request_headers(USER_AGENT)
