@@ -111,10 +111,13 @@ def main():
     except Exception as e:
         logging.error(f"Erro: {e}")
     else:
+        logging.info(f"DADOS CAPTURADOS COM SUCESSO.")
         try:
             insert_data_to_db(new_posts)
         except Exception as e:
             logging.error(f"Erro associado ao DB: {e}")
+        else:
+            logging.info(f"DADOS ENVIADOS COM SUCESSO.")
 
 if __name__ == "__main__":
     logging.basicConfig(
