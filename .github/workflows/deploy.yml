@@ -38,5 +38,6 @@ jobs:
           USER_AGENT: ${{ secrets.USER_AGENT }}
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
+          GOOGLE_CREDS: ${{ secrets.GOOGLE_CREDS }}
         run: |
           python -m app.main
