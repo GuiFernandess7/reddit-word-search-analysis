@@ -4,10 +4,18 @@ from googleapiclient.http import MediaFileUpload
 
 import requests
 from datetime import datetime, timezone
+import logging
 import re
 
-from app.settings import USER_AGENT, INITIAL_PARAMS, SERVICE_ACCOUNT_FILE, SCOPES, FOLDER_ID
-from app.database import engine, Session
+from app.settings import (
+        USER_AGENT,
+        INITIAL_PARAMS,
+        SERVICE_ACCOUNT_FILE,
+        SCOPES,
+        FOLDER_ID
+    )
+
+from app.database import Session
 from app.models import Post
 from app.errors import *
 from app.api_token import get_token_access
@@ -29,7 +37,7 @@ def upload_to_drive(file_path):
         media = MediaFileUpload(file_path, mimetype='application/x-sqlite3')
 
         file = service.files().update(fileId=file_id, media_body=media).execute()
-        print(f'Arquivo {file_name} atualizado com ID: {file.get("id")}')
+        logger.info(f'Arquivo {file_name} atualizado com ID: {file.get("id")}')
     else:
         raise ValueError("posts.db not found in folder.")
 
@@ -92,7 +100,7 @@ def insert_data_to_db(posts):
                 session.rollback()
                 raise DatabaseInsertError(f"Erro ao inserir novos dados no banco de dados: {e}") from e
         else:
-            print("Nenhum novo dado para inserir.")
+            logger.debug("Nenhum novo dado para inserir.")
 
 def main():
     try:
@@ -101,12 +109,17 @@ def main():
         posts = get_subreddit_posts(subreddit, headers)
         new_posts = get_raw_data(posts)
     except Exception as e:
-        print(f"Erro: {e}")
+        logging.error(f"Erro: {e}")
     else:
         try:
             insert_data_to_db(new_posts)
         except Exception as e:
-            print(f"Erro associado ao DB: {e}")
+            logging.error(f"Erro associado ao DB: {e}")
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+    logger = logging.getLogger(__name__)
     main()
