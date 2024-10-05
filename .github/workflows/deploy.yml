@@ -20,6 +20,9 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Create .creds directory
+        run: mkdir -p .creds
+
       - name: Create credentials file
         run: echo "${{ secrets.GOOGLE_CREDS }}" | base64 --decode > .creds/creds.json
 
