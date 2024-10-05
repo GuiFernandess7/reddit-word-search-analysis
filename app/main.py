@@ -99,8 +99,10 @@ def insert_data_to_db(posts):
             except Exception as e:
                 session.rollback()
                 raise DatabaseInsertError(f"Erro ao inserir novos dados no banco de dados: {e}") from e
+            else:
+                logging.info(f"POSTS ENVIADOS: {len(new_posts)}")
         else:
-            logger.debug("Nenhum novo dado para inserir.")
+            logger.debug("Nenhum post novo encontrado.")
 
 def main():
     try:
