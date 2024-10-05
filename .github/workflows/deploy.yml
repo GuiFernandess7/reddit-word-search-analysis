@@ -20,18 +20,13 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Create credentials file
+        run: echo "${{ secrets.GOOGLE_CREDS }}" | base64 --decode > .creds/creds.json
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Restore posts.db from cache
-        uses: actions/cache@v3
-        with:
-          path: app/data/posts.db
-          key: ${{ runner.os }}-posts-db-${{ hashFiles('app/data/posts.db') }}
-          restore-keys: |
-            ${{ runner.os }}-posts-db-
 
       - name: Run the app
         env:
@@ -42,10 +37,3 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
           python -m app.main
-
-      - name: Save posts.db to cache
-        if: steps.cache-posts-db.outputs.cache-hit != 'true'
-        uses: actions/cache@v3
-        with:
-          path: app/data/posts.db
-          key: ${{ runner.os }}-posts-db-${{ hashFiles('app/data/posts.db') }}
