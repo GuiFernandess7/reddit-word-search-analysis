@@ -5,7 +5,8 @@
 ## Introduction
 
 The application is designed to automate the process of collecting, processing, and storing data from a specific subreddit on Reddit. By leveraging Google Drive for storage and utilizing OAuth for authentication, the application efficiently manages posts, allowing users to maintain a database of relevant information while ensuring data integrity and accessibility.
-Functionality
+
+## Functionality
 
 - Google Drive Authentication: The application uses a service account to authenticate with Google Drive. This allows it to upload and update files securely in a specified folder, ensuring that the latest data is always available.
 
