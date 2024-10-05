@@ -126,8 +126,6 @@ def main():
             insert_data_to_db(new_posts)
         except Exception as e:
             logging.error(f"[MAIN]: {e}")
-        else:
-            logging.info(f"DADOS ENVIADOS COM SUCESSO.")
 
 if __name__ == "__main__":
     logging.basicConfig(
