@@ -1,5 +1,7 @@
 # Reddit Automated Data Collection
 
+![reddit-cover](https://github.com/user-attachments/assets/c8db4cf8-89cb-4440-9732-531b110e4f2b)
+
 ## Introduction
 
 The application is designed to automate the process of collecting, processing, and storing data from a specific subreddit on Reddit. By leveraging Google Drive for storage and utilizing OAuth for authentication, the application efficiently manages posts, allowing users to maintain a database of relevant information while ensuring data integrity and accessibility.
