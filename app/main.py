@@ -109,14 +109,10 @@ def insert_data_to_db(posts, db_path):
         else:
             logger.info("Nenhum post novo encontrado.")
 
-        db_path = os.path.join(os.path.dirname(__file__), 'data', 'posts.db')
-        logger.info(os.path.isfile(db_path))
-        #logger.info(os.path.isfile(os.path.dirname(__file__), 'data/posts.db'))
-        #logger.info(os.path.join(os.path.dirname(__file__), 'data', 'posts.db'))
         upload_to_drive(db_path, FOLDER_ID)
 
 def main():
-    db_path = 'app/data/posts.db'
+    db_path = os.path.join(os.path.dirname(__file__), 'data', 'posts.db')
     try:
         headers = set_request_headers(USER_AGENT)
         subreddit = 'brasilivre'
