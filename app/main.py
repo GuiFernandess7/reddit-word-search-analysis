@@ -25,22 +25,22 @@ def authenticate_google_drive():
     creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
     return build('drive', 'v3', credentials=creds)
 
-def upload_to_drive(file_path):
+def upload_to_drive(file_path, folder_id):
     service = authenticate_google_drive()
     file_name = 'posts.db'
 
-    query = f"name='{file_name}' and '{FOLDER_ID}' in parents"
+    query = f"name='{file_name}' and '{folder_id}' in parents"
     results = service.files().list(q=query, fields='files(id)').execute()
     items = results.get('files', [])
 
     if items:
         file_id = items[0]['id']
-        media = MediaFileUpload(file_path, mimetype='application/x-sqlite3')
+        media = MediaFileUpload(file_path, mimetype='application/octet-stream')
 
         file = service.files().update(fileId=file_id, media_body=media).execute()
         logger.info(f'Arquivo {file_name} atualizado com ID: {file.get("id")}')
     else:
-        raise ValueError("posts.db not found in folder.")
+        raise ValueError(f"{file_name} not found in folder with ID: {folder_id}.")
 
 def set_request_headers(user_agent):
     headers = {'User-Agent': user_agent}
@@ -93,13 +93,14 @@ def insert_data_to_db(posts):
         new_posts = [post for post in posts if post.ts not in existing_timestamps]
 
         if new_posts:
+            db_path = os.path.join(os.path.dirname(__file__), 'data', 'posts.db')
             try:
                 session.add_all(new_posts)
                 session.commit()
-                if not os.path.isfile(os.path.join(os.path.dirname(__file__), 'data', 'posts.db')):
+                if not os.path.isfile(db_path):
                     raise DatabaseNotFound("Database File Not Found.")
                 else:
-                    upload_to_drive(os.path.join(os.path.dirname(__file__), 'data'))
+                    upload_to_drive(db_path, FOLDER_ID)
             except Exception as e:
                 session.rollback()
                 raise DatabaseInsertError(f"[DatabaseInsertError]: {e}") from e
