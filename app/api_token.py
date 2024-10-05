@@ -1,5 +1,4 @@
 import requests
-import pandas as pd
 
 from app.settings import (
     CLIENT_SECRET,
