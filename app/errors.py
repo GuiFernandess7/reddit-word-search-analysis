@@ -29,3 +29,7 @@ class BatchDataFrameError(Exception):
 class DatabaseInsertError(Exception):
     """Erro ao inserir dados no banco de dados."""
     pass
+
+class DatabaseNotFound(Exception):
+    """Erro ao inserir dados no banco de dados."""
+    pass

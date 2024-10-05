@@ -96,7 +96,10 @@ def insert_data_to_db(posts):
             try:
                 session.add_all(new_posts)
                 session.commit()
-                upload_to_drive(os.path.join(os.path.dirname(__file__), 'data'))
+                if not os.path.isfile(os.path.join(os.path.dirname(__file__), 'data', 'posts.db')):
+                    raise DatabaseNotFound("Database File Not Found.")
+                else:
+                    upload_to_drive(os.path.join(os.path.dirname(__file__), 'data'))
             except Exception as e:
                 session.rollback()
                 raise DatabaseInsertError(f"[DatabaseInsertError]: {e}") from e
