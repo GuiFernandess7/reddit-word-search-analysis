@@ -3,7 +3,6 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
 import requests
-import pandas as pd
 from datetime import datetime, timezone
 import re
 
