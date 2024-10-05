@@ -6,6 +6,7 @@ import requests
 from datetime import datetime, timezone
 import logging
 import re
+import os
 
 from app.settings import (
         USER_AGENT,
@@ -95,7 +96,7 @@ def insert_data_to_db(posts):
             try:
                 session.add_all(new_posts)
                 session.commit()
-                #upload_to_drive('./app/data/posts.db')
+                upload_to_drive(os.path.join(os.path.dirname(__file__), 'data', 'posts.db'))
             except Exception as e:
                 session.rollback()
                 raise DatabaseInsertError(f"[DatabaseInsertError]: {e}") from e
