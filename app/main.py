@@ -96,7 +96,7 @@ def insert_data_to_db(posts):
             try:
                 session.add_all(new_posts)
                 session.commit()
-                upload_to_drive(os.path.join(os.path.dirname(__file__), 'data', 'posts.db'))
+                upload_to_drive(os.path.join('data', 'posts.db'))
             except Exception as e:
                 session.rollback()
                 raise DatabaseInsertError(f"[DatabaseInsertError]: {e}") from e
@@ -125,7 +125,7 @@ def main():
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
-        format='[%(asctime)s] - [%(levelname)s] - [%(message)s]'
+        format='[%(asctime)s] - [%(levelname)s] - %(message)s'
     )
     logger = logging.getLogger(__name__)
     main()
