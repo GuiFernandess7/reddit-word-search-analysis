@@ -95,7 +95,7 @@ def insert_data_to_db(posts):
             try:
                 session.add_all(new_posts)
                 session.commit()
-                upload_to_drive('./app/data/posts.db')
+                #upload_to_drive('./app/data/posts.db')
             except Exception as e:
                 session.rollback()
                 raise DatabaseInsertError(f"[DatabaseInsertError]: {e}") from e
@@ -111,20 +111,20 @@ def main():
         posts = get_subreddit_posts(subreddit, headers)
         new_posts = get_raw_data(posts)
     except Exception as e:
-        logging.error(f"[MAIN] - {e}")
+        logging.error(f"[MAIN]: {e}")
     else:
         logging.info(f"DADOS CAPTURADOS COM SUCESSO.")
         try:
             insert_data_to_db(new_posts)
         except Exception as e:
-            logging.error(f"[MAIN - DB]: {e}")
+            logging.error(f"[MAIN]: {e}")
         else:
             logging.info(f"DADOS ENVIADOS COM SUCESSO.")
 
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        format='[%(asctime)s] - [%(levelname)s] - [%(message)s]'
     )
     logger = logging.getLogger(__name__)
     main()
