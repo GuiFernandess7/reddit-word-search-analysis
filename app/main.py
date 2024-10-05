@@ -108,7 +108,8 @@ def insert_data_to_db(posts, db_path):
                 logging.info(f"POSTS ENVIADOS: {len(new_posts)}")
         else:
             logger.info("Nenhum post novo encontrado.")
-            logger.info(os.path.isfile(os.path.dirname(__file__), 'data', 'posts.db'))
+            #db_path
+            #logger.info(os.path.isfile(os.path.dirname(__file__), 'data/posts.db'))
             logger.info(os.path.join(os.path.dirname(__file__), 'data', 'posts.db'))
             #upload_to_drive(db_path, FOLDER_ID)
 
