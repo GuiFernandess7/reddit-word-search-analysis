@@ -94,12 +94,14 @@ def insert_data_to_db(posts):
 
         if new_posts:
             db_path = os.path.join(os.path.dirname(__file__), 'data', 'posts.db')
+            logging.debug(f"Database path: {db_path}")
             try:
                 session.add_all(new_posts)
                 session.commit()
                 if not os.path.isfile(db_path):
                     raise DatabaseNotFound("Database File Not Found.")
                 else:
+                    logging.debug(f"Database path: {db_path}")
                     upload_to_drive(db_path, FOLDER_ID)
             except Exception as e:
                 session.rollback()
