@@ -96,7 +96,7 @@ def insert_data_to_db(posts):
             try:
                 session.add_all(new_posts)
                 session.commit()
-                upload_to_drive(os.path.join('data', 'posts.db'))
+                upload_to_drive(os.path.join(os.path.dirname(__file__), 'data'))
             except Exception as e:
                 session.rollback()
                 raise DatabaseInsertError(f"[DatabaseInsertError]: {e}") from e
