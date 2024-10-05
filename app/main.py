@@ -86,7 +86,7 @@ def get_raw_data(posts):
     except Exception as e:
         raise DataFrameCreationError(f"Erro ao criar dados a partir dos posts: {e}") from e
 
-def insert_data_to_db(posts):
+def insert_data_to_db(posts, db_path):
     with Session() as session:
         existing_timestamps = set(post.ts for post in session.query(Post.ts).all())
 
@@ -94,24 +94,24 @@ def insert_data_to_db(posts):
 
         if new_posts:
             logging.info(f"DADOS CAPTURADOS COM SUCESSO.")
-            db_path = os.path.join(os.path.dirname(__file__), 'data', 'posts.db')
             try:
                 session.add_all(new_posts)
                 session.commit()
-                #if not os.path.isfile(db_path):
-                #    raise DatabaseNotFound("Database File Not Found.")
-                #else:
-                #    logging.debug(f"Database path: {db_path}")
-                    #upload_to_drive(db_path, FOLDER_ID)
+                if not os.path.isfile(db_path):
+                    raise DatabaseNotFound("Database File Not Found.")
+                else:
+                    logging.info(f"Database path: {db_path}")
             except Exception as e:
                 session.rollback()
                 raise DatabaseInsertError(f"[DatabaseInsertError]: {e}") from e
             else:
                 logging.info(f"POSTS ENVIADOS: {len(new_posts)}")
         else:
-            logger.debug("Nenhum post novo encontrado.")
+            logger.info("Nenhum post novo encontrado.")
+            upload_to_drive(db_path, FOLDER_ID)
 
 def main():
+    db_path = 'app/data/posts.db'
     try:
         headers = set_request_headers(USER_AGENT)
         subreddit = 'brasilivre'
@@ -121,7 +121,7 @@ def main():
         logging.error(f"[MAIN]: {e}")
     else:
         try:
-            insert_data_to_db(new_posts)
+            insert_data_to_db(new_posts, db_path)
         except Exception as e:
             logging.error(f"[MAIN]: {e}")
 
