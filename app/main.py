@@ -102,7 +102,7 @@ def insert_data_to_db(posts):
                     raise DatabaseNotFound("Database File Not Found.")
                 else:
                     logging.debug(f"Database path: {db_path}")
-                    upload_to_drive(db_path, FOLDER_ID)
+                    #upload_to_drive(db_path, FOLDER_ID)
             except Exception as e:
                 session.rollback()
                 raise DatabaseInsertError(f"[DatabaseInsertError]: {e}") from e
