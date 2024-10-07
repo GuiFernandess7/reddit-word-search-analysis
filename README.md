@@ -24,10 +24,11 @@ The application is designed to automate the process of collecting, processing, a
 
 <div style="display: flex; align-items: center;">
     <div style="flex: 1;">
-        The application searches the 'brasilivre' subreddit for the word MBL (Movimento Brasil Livre), a Brazilian political party. The idea is to gather mentions over the months.
+        <h2>Word search | Purpose</h2>
+        <p>A aplicação busca no subreddit 'brasilivre' pela palavra MBL (Movimento Brasil Livre), um partido político brasileiro. A ideia é reunir menções ao longo dos meses.</p>
     </div>
-    <div style="flex: 0 0 auto; margin-left: 10px;">
-        <img src="https://github.com/user-attachments/assets/c3daeb58-d567-47a5-995b-422f032c9aba" alt="brasilivre(1)" width="300"/>
+    <div style="flex: 1; text-align: right;">
+        <img src="https://github.com/user-attachments/assets/c3daeb58-d567-47a5-995b-422f032c9aba" alt="brasilivre(1)" style="max-width: 100%; height: auto;">
     </div>
 </div>
 
