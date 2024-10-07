@@ -20,6 +20,11 @@ The application is designed to automate the process of collecting, processing, a
 
 - Logging and Error Handling: The application includes robust logging mechanisms to track the process flow and capture any errors that occur. This helps in debugging and maintaining the application effectively.
 
+## Word search | Pourpose
+![brasilivre](https://github.com/user-attachments/assets/63b10fa8-069f-46d7-9f89-b29d811670da)
+
+The application searches the 'brasilivre' subreddit for the word MBL (Movimento Brasil Livre), a Brazilian political party. The idea is to gather mentions over the months.
+
 ## Conclusion
 
 By automating the collection and storage of Reddit posts, the application provides a seamless experience for users looking to analyze and manage data from social media. With its integrated logging and error handling, users can rely on it to operate smoothly while they focus on deriving insights from the collected data.
