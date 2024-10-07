@@ -21,7 +21,8 @@ The application is designed to automate the process of collecting, processing, a
 - Logging and Error Handling: The application includes robust logging mechanisms to track the process flow and capture any errors that occur. This helps in debugging and maintaining the application effectively.
 
 ## Word search | Pourpose
-![brasilivre](https://github.com/user-attachments/assets/63b10fa8-069f-46d7-9f89-b29d811670da)
+![brasilivre](https://github.com/user-attachments/assets/eb302c90-45f2-4888-a80f-1dea67dcc84d)
+
 
 The application searches the 'brasilivre' subreddit for the word MBL (Movimento Brasil Livre), a Brazilian political party. The idea is to gather mentions over the months.
 
