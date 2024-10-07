@@ -24,7 +24,6 @@ The application is designed to automate the process of collecting, processing, a
 
 <div style="display: flex; align-items: center;">
     <div style="flex: 1;">
-        <h2>Word search | Purpose</h2>
         <p>The application searches the 'brasilivre' subreddit for the word MBL (Movimento Brasil Livre), a Brazilian political party. The idea is to gather mentions over the months.</p>
     </div>
     <div style="flex: 1; text-align: right;">
