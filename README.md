@@ -23,11 +23,11 @@ The application is designed to automate the process of collecting, processing, a
 ## Word search | Purpose
 
 <div style="display: flex; align-items: center;">
+    <div style="flex: 1; text-align: right;">
+        <img src="https://github.com/user-attachments/assets/c3daeb58-d567-47a5-995b-422f032c9aba" alt="brasilivre(1)" style="max-width: 100%; height: 200px;">
+    </div>
     <div style="flex: 1;">
         <p>The application searches the 'brasilivre' subreddit for the word MBL (Movimento Brasil Livre), a Brazilian political party. The idea is to gather mentions over the months.</p>
-    </div>
-    <div style="flex: 1; text-align: right;">
-        <img src="https://github.com/user-attachments/assets/c3daeb58-d567-47a5-995b-422f032c9aba" alt="brasilivre(1)" style="max-width: 100%; height: auto;">
     </div>
 </div>
 
