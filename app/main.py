@@ -1,12 +1,14 @@
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
+from googleapiclient.http import MediaIoBaseDownload
 
 import requests
 from datetime import datetime, timezone
 import logging
 import re
 import os
+import io
 
 from app.settings import (
         USER_AGENT,
@@ -43,6 +45,33 @@ def upload_to_drive(file_path, folder_id):
 
         file = service.files().update(fileId=file_id, media_body=media).execute()
         logger.info(f'Arquivo {file_name} atualizado com ID: {file.get("id")}')
+    else:
+        raise ValueError(f"{file_name} not found in folder with ID: {folder_id}.")
+
+def download_from_drive(file_name, folder_id, destination_path):
+    service = authenticate_google_drive()
+
+    query = f"name='{file_name}' and '{folder_id}' in parents"
+    results = service.files().list(q=query, fields='files(id)').execute()
+    items = results.get('files', [])
+
+    if items:
+        file_id = items[0]['id']
+        request = service.files().get_media(fileId=file_id)
+
+        fh = io.BytesIO()
+        downloader = MediaIoBaseDownload(fh, request)
+
+        done = False
+        while done is False:
+            status, done = downloader.next_chunk()
+            logger.info(f"Download {int(status.progress() * 100)}%.")
+
+        with open(destination_path, 'wb') as f:
+            fh.seek(0)
+            f.write(fh.read())
+
+        logger.info(f'Arquivo {file_name} baixado com sucesso para {destination_path}.')
     else:
         raise ValueError(f"{file_name} not found in folder with ID: {folder_id}.")
 
@@ -124,6 +153,8 @@ def main():
             insert_data_to_db(new_posts, db_path)
         except Exception as e:
             logging.error(f"[MAIN]: {e}")
+        else:
+            download_from_drive('posts.db', FOLDER_ID, db_path)
 
 if __name__ == "__main__":
     logging.basicConfig(
