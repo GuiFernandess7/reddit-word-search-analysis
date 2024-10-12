@@ -153,8 +153,6 @@ def main():
             insert_data_to_db(new_posts, db_path)
         except Exception as e:
             logging.error(f"[MAIN]: {e}")
-        else:
-            download_from_drive('posts.db', FOLDER_ID, db_path)
 
 if __name__ == "__main__":
     logging.basicConfig(
