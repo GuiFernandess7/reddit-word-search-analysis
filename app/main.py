@@ -137,8 +137,6 @@ def insert_data_to_db(posts, db_path):
                 raise DatabaseInsertError(f"[DatabaseInsertError]: {e}") from e
             else:
                 logging.info(f"POSTS ENVIADOS: {len(new_posts)}")
-        else:
-            logger.info("Nenhum post novo encontrado.")
 
 def apply_extraction(subreddit):
     try:
@@ -151,7 +149,7 @@ def apply_extraction(subreddit):
 
 def main():
     db_path = os.path.join(os.path.dirname(__file__), 'data', 'posts.db')
-    subs = ['brasil']
+    subs = ['brasil', 'brasilivre']
 
     for sub in subs:
         new_posts = apply_extraction(sub)
