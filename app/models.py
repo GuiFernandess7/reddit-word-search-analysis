@@ -11,6 +11,7 @@ class Post(Base):
     title = Column(String, nullable=False)
     has_label = Column(Boolean, nullable=False)
     created_at = Column(DateTime, default=datetime.now(timezone.utc))
+    subreddit = Column(String, nullable=True)
 
     def __repr__(self):
         return f"<Post(ts={self.ts}, title='{self.title}', has_label='{self.has_label}', created_at={self.created_at})>"
