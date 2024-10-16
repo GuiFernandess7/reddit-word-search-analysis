@@ -101,7 +101,7 @@ def check_for_word(title, search_phrase='mbl'):
     except Exception as e:
         raise WordCheckError("Erro ao verificar palavras no título.") from e
 
-def get_raw_data(posts, subreddit: str = 'brasilivre'):
+def get_raw_data(posts, subreddit):
     try:
         new_posts = []
         for post in posts['data']['children']:
