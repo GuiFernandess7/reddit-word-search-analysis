@@ -101,7 +101,7 @@ def check_for_word(title, search_phrase='mbl'):
     except Exception as e:
         raise WordCheckError("Erro ao verificar palavras no título.") from e
 
-def get_raw_data(posts):
+def get_raw_data(posts, subreddit: str = 'brasilivre'):
     try:
         new_posts = []
         for post in posts['data']['children']:
@@ -113,7 +113,8 @@ def get_raw_data(posts):
                 ts=ts,
                 title=title,
                 has_label=has_label,
-                created_at=datetime.fromtimestamp(ts, tz=timezone.utc)
+                created_at=datetime.fromtimestamp(ts, tz=timezone.utc),
+                subreddit=subreddit
             ))
         return new_posts
     except Exception as e:
@@ -139,16 +140,21 @@ def insert_data_to_db(posts, db_path):
         else:
             logger.info("Nenhum post novo encontrado.")
 
-def main():
-    db_path = os.path.join(os.path.dirname(__file__), 'data', 'posts.db')
+def apply_extraction(subreddit):
     try:
         headers = set_request_headers(USER_AGENT)
-        subreddit = 'brasilivre'
         posts = get_subreddit_posts(subreddit, headers)
-        new_posts = get_raw_data(posts)
+        new_posts = get_raw_data(posts, subreddit)
+        return new_posts
     except Exception as e:
         logging.error(f"[MAIN]: {e}")
-    else:
+
+def main():
+    db_path = os.path.join(os.path.dirname(__file__), 'data', 'posts.db')
+    subs = ['brasilivre', 'brasil']
+
+    for sub in subs:
+        new_posts = apply_extraction(sub)
         try:
             insert_data_to_db(new_posts, db_path)
         except Exception as e:
