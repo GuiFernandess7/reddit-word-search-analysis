@@ -149,7 +149,7 @@ def apply_extraction(subreddit):
 
 def main():
     db_path = os.path.join(os.path.dirname(__file__), 'data', 'posts.db')
-    subs = ['brasil', 'brasilivre']
+    subs = ['brasilivre']
 
     for sub in subs:
         new_posts = apply_extraction(sub)
