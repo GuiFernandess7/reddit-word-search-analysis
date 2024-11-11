@@ -12,7 +12,7 @@ USER_AGENT = os.getenv('USER_AGENT')
 
 SCOPES = ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/drive.file']
 
-SERVICE_ACCOUNT_FILE = os.path.join(base_dir, '.creds', 'creds.json')
+SERVICE_ACCOUNT_FILE = os.path.join('.creds', 'creds.json')
 
 FOLDER_ID = "1iedDsGWCMNFQ6BlUdMLtZBVwzsMLW9dY"
 
