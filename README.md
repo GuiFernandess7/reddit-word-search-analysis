@@ -30,3 +30,4 @@ The application is designed to automate the process of collecting, processing, a
 ## Conclusion
 
 By automating the collection and storage of Reddit posts, the application provides a seamless experience for users looking to analyze and manage data from social media. With its integrated logging and error handling, users can rely on it to operate smoothly while they focus on deriving insights from the collected data.
+
