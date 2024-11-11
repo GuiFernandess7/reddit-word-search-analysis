@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 
 Base = declarative_base()
 
-class Post(Base):
+class PostModel(Base):
     __tablename__ = 'posts'
 
     ts = Column(BigInteger, primary_key=True)

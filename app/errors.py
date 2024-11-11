@@ -33,3 +33,10 @@ class DatabaseInsertError(Exception):
 class DatabaseNotFound(Exception):
     """Erro ao inserir dados no banco de dados."""
     pass
+
+class DriveAuthError(Exception):
+    """Google drive auth error"""
+    pass
+
+class ServiceAccountNotFound(Exception):
+    pass
